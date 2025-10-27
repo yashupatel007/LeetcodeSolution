@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int partitionDisjoint(vector<int>& nums) {
+        int n=nums.size();
+        int leftmax=nums[0];
+        int sabseBada= nums[0];
+        int partition=0;
+        for(int i=0;i<n;i++){
+            sabseBada=max(sabseBada,nums[i]);
+            if(nums[i]<leftmax){
+                partition=i;
+                leftmax=sabseBada;
+            }
+        }
+        return 1+partition;
+        
+    }
+};
