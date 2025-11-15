@@ -21,3 +21,43 @@ public:
 
     }
 };
+
+// 2nd approach
+
+class Solution {
+public:
+string add(string num1,string num2){
+      string ans;
+      int n1=num1.size()-1;
+      int n2=num2.size()-1;
+     int carry=0;
+     int sum;
+     // calculate sum n2 index tak
+      while(n2>=0){
+        sum=(num1[n1]-'0')+(num2[n2]-'0')+carry;//string to int me sum 
+        carry=sum/10;
+        char c=sum%10+'0';
+        ans+=c;
+        n2--;
+        n1--;
+      }
+      // for calculating sum of n1 bec n2 is ended
+      while(n1>=0){
+        sum=(num1[n1]-'0')+carry;
+        carry=sum/10;
+        char c=sum%10+'0';
+        ans+=c;
+        n1--;
+      }
+      if(carry) // if carry left then add too
+        ans+='1'; //mostly 0 or 1 
+    reverse(ans.begin(),ans.end());
+    return ans;
+}
+    string addStrings(string num1, string num2) {
+       if(num1.size()<num2.size()) // agar num2 bada hai to swap kar do 
+         return add(num2,num1);
+        else 
+         return add(num1,num2);
+    }
+};
