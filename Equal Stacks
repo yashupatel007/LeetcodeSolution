@@ -1,0 +1,30 @@
+int equalStacks(vector<int> h1, vector<int> h2, vector<int> h3) {
+    int l1=0,l2=0,l3=0;
+    int sum1=0,sum2=0,sum3=0;
+    int n1=h1.size(),n2=h2.size(),n3=h3.size();
+    
+    for(int i=0;i<n1;i++)
+      sum1+=h1[i]; // sum of h1
+    
+      for(int i=0;i<n2;i++)
+         sum2+=h2[i]; // sum of h2
+      
+     for(int i=0;i<n3;i++)
+        sum3+=h3[i]; // sum of h3
+        
+        
+        while(sum1!=sum2 || sum2!=sum3){ // terminating condition
+            if(sum1==0 || sum2==0 || sum3==0)
+                return 0;
+                // check one by one
+            else if(sum1>=sum2 && sum2>=sum3)
+              sum1-=h1[l1++];
+              
+            else if(sum2>=sum3 && sum2>=sum1)
+              sum2-=h2[l2++];
+              
+            else 
+              sum3-=h3[l3++];
+        }
+        return sum1;
+}
