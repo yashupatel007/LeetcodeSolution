@@ -1,0 +1,65 @@
+class Solution {
+public: 
+void lpsfind(vector<int>& lps,string s){
+    
+      int prefix=0,sufix=1;
+      while(sufix<s.size()){
+        if(s[prefix]==s[sufix]){ // for match
+            lps[sufix]=prefix+1;
+            prefix++;
+            sufix++;
+        }
+        else{ // not match
+            if(prefix==0){ // eske peeche kuchh nhi hai esliye 0
+                lps[sufix]=0;
+                sufix++;
+            }
+            else 
+               prefix=lps[prefix-1];// peechhe wali index me chala jayega
+        }
+      }
+}
+    int kmp_match(string haystack, string needle) {
+      vector<int>lps(needle.size(),0);
+      lpsfind(lps,needle);  // seedha changement edher hoga
+      int first=0,second=0;
+      while(second<needle.size() && first<haystack.size()){ // koi bhi ek bahar nikal jaye bass
+        if(haystack[first]==needle[second]){
+            first++;
+            second++;
+        }
+        else {
+            if(second==0){ // agar second ke pehle kuchh nhi hai to first ko inc. karo bass
+                first++;
+            }
+            else {
+                second=lps[second-1];  // if hai then uski pehle wali index pe jao
+            }
+        }
+      }
+      if(second==needle.size()){ // second needle ke last index me aa gya 
+        return 1;
+      }
+     
+        return 0;
+    }
+    int repeatedStringMatch(string a, string b) {
+        if(a==b)
+          return 1;
+
+        int repeat=1;
+        string temp=a;
+        while(temp.size()<b.size()){ // repeat a to b size
+            temp+=a;
+            repeat++;
+        }
+        if(kmp_match(temp,b)==1) // a b ke size equal hai and matched
+          return repeat;
+        
+        if(kmp_match(temp+a,b)==1) // agr nhi match then add a one more time
+          return repeat+1;
+
+        return -1; // doesnot match
+
+    }
+};
