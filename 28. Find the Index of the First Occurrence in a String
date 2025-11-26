@@ -1,0 +1,46 @@
+class Solution {
+public:
+void lpsfind(vector<int>& lps,string s){
+    
+      int prefix=0,sufix=1;
+      while(sufix<s.size()){
+        if(s[prefix]==s[sufix]){ // for match
+            lps[sufix]=prefix+1;
+            prefix++;
+            sufix++;
+        }
+        else{ // not match
+            if(prefix==0){ // eske peeche kuchh nhi hai esliye 0
+                lps[sufix]=0;
+                sufix++;
+            }
+            else 
+               prefix=lps[prefix-1];// peechhe wali index me chala jayega
+        }
+      }
+}
+    int strStr(string haystack, string needle) {
+      vector<int>lps(needle.size(),0);
+      lpsfind(lps,needle);  // seedha changement edher hoga
+      int first=0,second=0;
+      while(second<needle.size() && first<haystack.size()){ // koi bhi ek bahar nikal jaye bass
+        if(haystack[first]==needle[second]){
+            first++;
+            second++;
+        }
+        else {
+            if(second==0){ // agar second ke pehle kuchh nhi hai to first ko inc. karo bass
+                first++;
+            }
+            else {
+                second=lps[second-1];  // if hai then uski pehle wali index pe jao
+            }
+        }
+      }
+      if(second==needle.size()){ // second needle ke last index me aa gya 
+        return first-second;
+      }
+     
+        return -1;
+    }
+};
