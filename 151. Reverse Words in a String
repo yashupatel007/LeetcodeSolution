@@ -1,0 +1,88 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        int n=s.size();
+        string temp;
+        string ans="";
+       int index=n-1;
+       while(index>=0){ // go till last index
+       
+        if(s[index]!=' '){ // last ka 1 word copy karo
+            temp+=s[index];
+            index--;
+        }
+        else{
+            if(temp!=""){ // check if temp is not empty
+                 reverse(temp.begin(),temp.end());
+                 if(ans.empty()){ // if ans empty hai to bass word add karo
+                   ans+=temp;
+                 }
+                 else {
+                    ans+=' '; // agar pehle koi word present hai to space add karo
+                     ans+=temp;
+                 }
+            
+
+             temp="";// reset temp
+             index--;
+            }
+              
+            else { // if temp is empty do nothing
+                index--;
+                continue;
+            }
+        }
+        
+       }
+       // repeat the else logic as 1 word yet to add
+        if(temp!=""){
+                 reverse(temp.begin(),temp.end());
+                 if(ans.empty()){
+                   ans+=temp;
+                 }
+                 else {
+                    ans+=' ';
+                     ans+=temp;
+                 }
+        }
+            
+  
+    
+        return ans;
+   
+
+    }
+};
+
+
+// approach 2 with space complexity O(1)
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        int n=s.size();
+     int l=0; // for writing in the string
+     int r=0; // only for reading 
+     reverse(s.begin(),s.end());
+
+     while(r<n){
+        if(s[r]==' '){
+            r++;
+            continue;
+        }
+        else if(l>0){
+            s[l]=' ';
+            l++;
+        }
+         int start=l;
+        while(r<n && s[r]!=' '){
+            s[l]=s[r];
+            l++;
+            r++;
+        }
+        reverse(s.begin()+start,s.begin()+l);
+     }
+     s.resize(l);
+     return s;
+    }
+};
