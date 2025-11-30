@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+      int n=nums.size();
+      vector<int>count(n+1,0); // for storing the count
+      
+      for(int x:nums){
+        count[x]++; // store the occurence 
+      }
+     int duplicate=-1;
+     int missing=-1;
+      for(int i=1;i<=n;i++){ // 1 to n means index 1 pe 1 ka count , remove 0 index
+        if(count[i]==2) // 2 means duplicate 
+         duplicate=i;
+         else if(count[i]==0){
+            missing=i; // 0 means it is missing
+         }
+      }
+     return {duplicate,missing};// return this format to maintain the order
+    }
+};
