@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int countHomogenous(string s) {
+        int n=s.size();
+        vector<int>ans(n,0);
+        int index=1;
+        ans[index-1]=1; // first index me 1 dalo
+        long long sum=1;
+        long long mod= pow(10,9)+7;
+        while(index<n){
+            if(s[index-1]==s[index]){ // pehle wale se check karo
+                ans[index]=ans[index-1]+1; // agar match to pehle wale se 1 increase
+                sum+=ans[index]%mod; // sum me add karo
+                index++;
+            }
+            else {
+                ans[index]=1; // not match , put 1
+                sum+=ans[index]%mod;
+                index++;
+            }
+        }
+       
+     
+        return sum%mod;
+
+    }
+};
+
+
+
+// approach 2 
+
+class Solution {
+public:
+    int countHomogenous(string s) {
+       int n=s.size();
+       int count=0;
+       long long sum=0;
+       long long mod=pow(10,9)+7;
+       for(int i=0;i<n;i++){ // traverse karo 
+        if(i>0 && s[i]==s[i-1]){ // if match
+            count++; //count increase 
+            sum=(sum+count)%mod;//add in sum
+        }
+        else {
+            count=1;// reset count to 1
+            sum=(sum+count)%mod;
+        }
+       }
+        return sum;
+    }
+};
+
