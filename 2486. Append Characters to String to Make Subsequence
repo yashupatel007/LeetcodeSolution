@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int appendCharacters(string s, string t) {
+        int n=s.size();
+        int m=t.size();
+        int first=0;
+        int second=0;
+        int count=0;
+        // use two pointer approach
+        while(first<n && second<m){ // first & second s & t ke end tak badhao 
+            if(s[first]==t[second]){
+                first++;
+                second++;
+                count++;
+            }
+            else {
+                first++;
+            }
+        }
+        return (m-count);
+         
+    }
+};
