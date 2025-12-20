@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int countGoodSubstrings(string s) {
+        int n=s.size();
+        int first=0;
+        int count=0;
+        
+         if(n<3)
+          return 0;
+          
+        while(first<=n-3){
+            if(s[first]!=s[first+1] && s[first]!=s[first+2] && s[first+1]!=s[first+2]){
+                count++;
+                first++;
+            }
+            else 
+              first++;
+
+        }
+         
+        return count;
+        
+    }
+};
