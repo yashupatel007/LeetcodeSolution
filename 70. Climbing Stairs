@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int climbStairs(int n) {
+       if(n<=1)
+        return 1;
+        int a=1;
+        int sum=1;
+        int b=0;
+      for(int i=2;i<=n;i++){
+          b=sum; // store previous sum
+          sum+=a; // (n-1)+(n-2)
+          a=b; // prev sum stored in a 
+
+      }
+      return sum;
+    }
+};
