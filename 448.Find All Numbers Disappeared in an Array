@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int n=nums.size();
+        // vector<int>count(n+1,0);
+        vector<int>res;
+        // for(int x:nums)
+        //   count[x]++;
+
+        // int missing =-1;
+        // for(int i=1;i<=n;i++){
+        //     if(count[i]==0)
+        //        res.push_back(i);
+        // }
+        // return res;
+        //approach 2nd
+        for(int i=0;i<n;i++){  //nums ko traverse karo
+            int index=abs(nums[i])-1; // jo array ka element hai uske -1 wali location me jao
+            if(nums[index]>0)
+               nums[index]=-nums[index];// and use negative bana do
+        }
+        for(int i=0;i<n;i++){
+            if(nums[i]>0)
+              res.push_back(i+1); // bakki jo +ve bache unhe +1 karke return kar do
+        }
+        return res;
+        
+    }
+};
