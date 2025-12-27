@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>res;
+
+        for(int i=0;i<n;i++){ //traverse the array
+            int index=abs(nums[i])-1;
+
+            if(nums[index]>0) //if element is +ve make -ve
+              nums[index]=-nums[index];
+            else 
+              res.push_back(index+1);// else repeated element
+        }
+        return res;
+    }
+};
