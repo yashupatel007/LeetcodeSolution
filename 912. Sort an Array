@@ -1,0 +1,59 @@
+class Solution {
+public:
+
+void merge(vector<int>&nums,int start,int mid,int end){
+  vector<int>temp(end-start+1);
+  int left=start;
+  int right=mid+1;
+  int index=0;
+  // store sorted elements in upper temp array
+
+  while(left<=mid && right<=end){
+    if(nums[left]<=nums[right]){
+      temp[index]=nums[left];
+      index++;
+      left++;
+    }
+    else {
+      temp[index]=nums[right];
+      index++;
+      right++;
+    }
+  }
+  // if elements left usko temp array me dalo
+  while(left<=mid){
+     temp[index]=nums[left];
+      index++;
+      left++;
+  }
+  while(right<=end){
+     temp[index]=nums[right];
+      index++;
+      right++;
+  }
+  //copy the values of temp into the nums
+  index=0;
+  while(start<=end){
+    nums[start]=temp[index];
+    start++;
+    index++;
+  }
+
+}
+
+void mergesort(vector<int>&nums,int start,int end){
+  if(start==end)  // base case
+   return;
+
+  int mid=start+(end-start)/2;
+
+  mergesort(nums,start,mid); //left divide
+  mergesort(nums,mid+1,end); //right divide
+  merge(nums,start,mid,end); //merge array
+
+}
+    vector<int> sortArray(vector<int>& nums) {
+       mergesort(nums,0,nums.size()-1);
+       return nums;
+    }
+};
