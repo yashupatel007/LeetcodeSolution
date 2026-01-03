@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+       
+        int n=digits.size();
+         vector<int>res;
+        int sum=(digits[n-1]+1)%10;
+        int carry=(digits[n-1]+1)/10;
+        res.push_back(sum);
+        for(int i=n-2;i>=0;i--){
+            if(carry && digits[i]==9){
+                sum=(digits[i]+carry)%10;
+                carry=1;
+                res.push_back(sum);
+            }
+            else {
+                sum=(digits[i]+carry)%10;
+                carry=0;
+                res.push_back(sum);
+            }
+        }
+        if(carry){
+                res.push_back(carry);
+        }
+        reverse(res.begin(),res.end());
+        return res;
+        // //approach 2nd
+        // int n=digits.size();
+        // for(int i=n-1;i>=0;i--){
+        //     if(digits[i]<9){ //mtlb 1 to 8 hai
+        //         digits[i]+=1;
+        //         return digits;
+        //     }
+        //     //agar 9 hai to -[9,9,9]
+        //     digits[i]=0; //[0,0,0]
+        // }
+        // digits.push_back(0); //[0,0,0,0]
+        // digits[0]=1;  //[1,0,0,0]
+        // return digits;
+    }
+};
