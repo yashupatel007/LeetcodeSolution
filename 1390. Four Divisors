@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int sumFourDivisors(vector<int>& nums) {
+        int sum=0;
+        int count=0;
+        int sum1=0;
+
+        for(int i=0;i<nums.size();i++){
+           // reset sum & count
+            sum=0;
+            count=0;
+         int j=1; 
+         int limit=sqrt(nums[i]);
+           while(j<=limit && count<=4){ // count<=4 tak check karo bass
+              if(j*(nums[i]/j)==nums[i]){ // 2 divisor hai
+                if(j!=(nums[i]/j)){ // divisor same nhi hai like !4*4
+                count+=2; // count+2
+                sum+=j+(nums[i]/j);
+              }
+              else { //otherwise count+1
+                count+=1;
+                sum+=j;
+              }
+              }
+              
+              j++;
+           }
+           if(count==4) // only add 4 divisor wale 
+            sum1+=sum;
+        }
+     return sum1;
+    
+    }
+       
+};
