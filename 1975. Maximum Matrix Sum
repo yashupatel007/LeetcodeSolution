@@ -1,0 +1,23 @@
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        int count=0;
+        long long sum=0;
+        int  minimum=abs(matrix[0][0]);
+       // traverse the matrix
+       for(int i=0;i<matrix.size();i++){
+        for(int j=0;j<matrix[i].size();j++){
+             sum+=abs(matrix[i][j]); // calculate sum of matrix
+             minimum=min(abs(matrix[i][j]),minimum); // find min element(abs)
+             if(matrix[i][j]<0) // find total -ve
+               count++; 
+        }
+       }
+       if(count%2==0) //sabko +ve kar sakte hai
+         return sum;
+       else{ //koi 1 rah jayega
+        long long total_sum=sum-2*minimum; //ex= -1+2+3=4
+        return total_sum; // abs(-1)+2+3=6-(do baar 1 )=4 aayega
+       }
+    }
+};
