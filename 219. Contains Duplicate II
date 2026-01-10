@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+       unordered_map<int,int>mp;
+       int start=0;
+       int pointer=0;
+       while(start<nums.size()){
+        if(mp.size()<=k){
+            if(mp.find(nums[start])==mp.end()){
+            mp[nums[start]]=start;//key value
+            }
+            else 
+               return true;
+        }
+        else {
+            mp.erase(nums[pointer]);
+            pointer++;
+             if(mp.find(nums[start])==mp.end()){
+                 mp[nums[start]]=start;//key value
+            }
+            else 
+               return true;
+        }
+        start++;
+       }
+       return false;
+    }
+    // // 2nd approach using set
+    // unordered_set<int>st;
+    // int point=0;
+    // for(int i=0;i<nums.size();i++){
+    //     if(st.size()>k){ // if set size if > than k
+    //       st.erase(nums[point]);//erase old element
+    //       point++;
+    // }
+    //     if(st.count(nums[i])) // found dublicate
+    //       return true;
+
+    //     st.insert(nums[i]);// not fount too insert
+    // }
+    // return false;
+    // }
+} ; 
