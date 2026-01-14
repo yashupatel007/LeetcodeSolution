@@ -1,0 +1,26 @@
+class Solution {
+public:
+   void permutation(vector<int>&nums,vector<vector<int>>&ans,int index){
+    if(index==nums.size()){
+        ans.push_back(nums);
+        return;
+    }
+    vector<bool>check(21,0);// make a bool vector to check which elem is already occured
+    for(int i=index;i<nums.size();i++){
+        if(check[nums[i]+10]==0){
+        swap(nums[i],nums[index]);
+        permutation(nums,ans,index+1);
+        swap(nums[i],nums[index]);
+        check[nums[i]+10]=1;//make 1 as ocurred
+        }
+    }
+   }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>>ans;
+        int index=0;
+        permutation(nums,ans,index);
+        return ans;
+        
+
+    }
+};
