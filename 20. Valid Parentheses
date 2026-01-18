@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char>st;
+        if(s.size()%2!=0)// size must be even
+          return false;
+        for(int i=0;i<s.size();i++){
+            if(s[i]=='('||s[i]=='['||s[i]=='{')// ye wale push karo
+              st.push(s[i]);
+            else { //agar close wale aaye to..
+                if(st.empty())//check stack empty to nhi
+                  return false;
+                char top=st.top();
+                if(top=='('&&s[i]==')' || //agar not empty and pehle open wale hai
+                   top=='['&&s[i]==']' || //to hata do TOS se
+                   top=='{'&&s[i]=='}')
+                   st.pop();
+                else //baki koi bhi pair aaye 
+                  return false;
+                
+            }
+        }
+      
+        return st.empty();//1 stack must be empty
+    }
+};
