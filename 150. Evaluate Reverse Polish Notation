@@ -1,0 +1,63 @@
+class Solution {
+public:
+    int check(string c){
+        if(c=="+")
+          return 1;
+         if(c=="-")
+          return 2;
+           if(c=="*")
+          return 3;
+           if(c=="/")
+          return 4;
+        
+        return 5;
+    }
+    int evalRPN(vector<string>& tokens) {
+        stack<int>st;
+        
+        for(int i=0;i<tokens.size();i++)
+        {
+            if(!check(tokens[i]) || check(tokens[i])==5)//check for number
+            //you can remove !check(tokens[i])
+            {
+                st.push(stoi(tokens[i]));//push it to the stack
+            }
+            else 
+            { //you can i also calculate first & second here 
+                if(check(tokens[i])==1) // for +
+                {
+                    int second=st.top();
+                    st.pop();
+                    int first=st.top();
+                    st.pop();
+                    st.push(first+second);
+                }
+                else if(check(tokens[i])==2)//for -
+                {
+                    int second=st.top();
+                    st.pop();
+                    int first=st.top();
+                    st.pop();
+                    st.push(first-second);
+                }
+                else if(check(tokens[i])==3)//for *
+                {
+                    int second=st.top();
+                    st.pop();
+                    int first=st.top();
+                    st.pop();
+                    st.push(first*second);
+                }
+                else if(check(tokens[i])==4)//for /
+                {
+                    int second=st.top();
+                    st.pop();
+                    int first=st.top();
+                    st.pop();
+                    st.push(first/second);
+                }
+            }
+        }
+        return st.top();
+    }
+};
