@@ -1,0 +1,49 @@
+class Solution
+{
+public:
+    int temp_row[4] = {-1, 1, 0, 0}; // UDLR
+    int temp_col[4] = {0, 0, 1, -1};
+    bool valid(int i, int j, int row, int col)
+    { // check ander hai ki nhi
+        return i >= 0 && j >= 0 && i < row && j < col;
+    }
+
+    bool match(vector<vector<char>> &board, string &word, vector<vector<bool>> &visited, int index,
+               int i, int j, int row, int col)
+    {
+        if (index == word.size()) // base case
+            return true;
+
+        visited[i][j] = 1; // visited make 1
+        for (int k = 0; k < 4; k++)
+        {
+            if (valid(i + temp_row[k], j + temp_col[k], row, col) && board[i + temp_row[k]][j + temp_col[k]] == word[index] && !visited[i + temp_row[k]][j + temp_col[k]])
+            {
+                if (match(board, word, visited, index + 1, i + temp_row[k], j + temp_col[k], row, col)) // if true return else explore
+                    return true;
+            }
+        }
+        visited[i][j] = 0;
+        return false;
+    }
+    bool exist(vector<vector<char>> &board, string word)
+    {
+        int r = board.size();
+        int c = board[0].size();
+        vector<vector<bool>> visited(r, vector<bool>(c, 0));
+        int index = 0;
+        for (int i = 0; i < r; i++)
+        {
+            for (int j = 0; j < c; j++)
+            {
+                if (board[i][j] == word[index])
+                {
+                    bool res = match(board, word, visited, index + 1, i, j, r, c); // check for all occurence of word[0]
+                    if (res == true)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+};
