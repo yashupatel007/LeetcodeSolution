@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int minimumPairRemoval(vector<int>& nums) {
+        if(is_sorted(nums.begin(),nums.end()))
+          return 0;
+        int first=0;
+        int second=1;
+        int f=first;
+        int s=second;
+        int sum=nums[first]+nums[second];//calculate sum for first 2
+        int count=0;
+        while(second<nums.size() && !is_sorted(nums.begin(),nums.end()))//do until nums is sorted
+        {
+           int temp_sum=nums[first]+nums[second];
+            if(temp_sum<sum)//if any sum is min then store it in sum
+            {
+                sum=temp_sum;
+                f=first;//store the index
+                s=second;
+            }
+            if(second==nums.size()-1)//when we reach last index
+            {
+                nums.erase(nums.begin()+s);//erase 2nd elem from pair
+                nums[f]=sum;//assign 1st the sum
+                sum=INT_MAX;//assign max for next cycle to store min
+                count++;//increase the count
+                first=-1;//to go in 0 index after ++
+                second=0;//to go in index[1] after ++
+            }
+            first++;
+            second++;
+        }
+        return count;
+    }
+};
