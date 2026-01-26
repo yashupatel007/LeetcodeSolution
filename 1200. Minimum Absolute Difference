@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> minimumAbsDifference(vector<int>& arr) {
+        sort(arr.begin(),arr.end());//sort the vector
+        vector<vector<int>>ans;
+        
+        int first=0;
+        int second=1;
+        int diff=INT_MAX;
+        while(second<arr.size())
+        {
+            
+            if(abs(arr[second]-arr[first])==diff)//diff same just push back pairs
+            {
+                ans.push_back({arr[first],arr[second]});
+                
+            }
+            else if(abs(arr[second]-arr[first])<diff)//less diff clear all push new pairs
+            {
+                diff=abs(arr[second]-arr[first]);
+                ans.clear();
+                ans.push_back({arr[first],arr[second]});//new way to push pair
+
+            }
+            first++;
+            second++;
+        }
+        return ans;
+    }
+};
