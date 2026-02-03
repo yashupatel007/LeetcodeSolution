@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        double ans=0; //storing larger value
+        int index=0;
+        int sign=1;// + by default
+        //leave leading spaces
+        while(index<s.size() && s[index]==' ')
+        {
+            index++;
+        }
+        //check for sign i.e. + or - means after space there is any sign
+        if(s[index]=='+' ||s[index]=='-') //can add (index<s.size() &&)
+        //because last string char is \0 so no problem of overflow
+        {
+            if(s[index]=='-')
+                sign=-1;
+            index++; // means start of digit
+        }
+        //check for digit
+        while(index<s.size())
+        {
+            if(isdigit(s[index]))
+                ans=ans*10+s[index]-'0';//ans*10+digit
+            else
+                return ans*sign;
+
+            if(sign==1 && ans>INT_MAX)
+                return INT_MAX;
+            if(sign==-1 && -ans<INT_MIN)
+                return INT_MIN;
+            
+            index++;
+        }
+        return ans*sign;
+    }
+};
