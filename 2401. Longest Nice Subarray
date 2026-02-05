@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int longestNiceSubarray(vector<int>& nums) {
+        int  n=nums.size();
+        int count=1;
+        int mask=0;
+        int left=0;
+        int right=0;
+       while(right<n)
+        {
+            if((mask & nums[right])==0) //if bitwise & is 0
+            {
+            count=max(count,right-left+1); //store max;
+            mask|=nums[right];//find OR to store occurence of 1 in every binary number 
+            right++;
+            }
+            else//if !=0
+            {
+                while((mask & nums[right])!=0)//keep shrinking until bit & is 0
+                {
+                    mask^=nums[left];//use XOR to remove left
+                    left++;
+                }
+                
+            }
+        }
+        return count;//return count
+    }
+};
