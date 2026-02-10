@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int numFactoredBinaryTrees(vector<int>& arr) {
+        int n=arr.size();
+        long long MOD=1000000007;
+        sort(arr.begin(),arr.end());
+        unordered_map<int,long long>mp;
+        for(int i=0;i<n;i++)
+        {
+            mp[arr[i]]=1; //store value & index in map
+        }
+        //traverse the arr
+        
+        for(int j=0;j<n;j++)
+        {
+            int k=0;
+            while(k<j)
+            {
+                if(arr[j]%arr[k]==0)
+                {
+                    int right=arr[j]/arr[k];
+                    if(mp.find(right)!=mp.end())
+                    {
+                        long long total_ways=(mp[arr[k]]*mp[right])%MOD;//to store large value
+                        mp[arr[j]]=(mp[arr[j]]+total_ways)%MOD;//add(update) the ways to mp's key
+                    }
+                }
+                k++;
+            }
+        }
+        long long sum=0;
+        for(int l=0;l<n;l++)
+        {
+            sum=(sum+mp[arr[l]])%MOD;//calculate sum of all value of map
+        }
+        return (int)sum;
+    }
+};
