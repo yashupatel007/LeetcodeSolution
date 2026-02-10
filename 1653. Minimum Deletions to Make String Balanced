@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minimumDeletions(string s) {
+        int n=s.size();
+        int occurence_b=0;//track no. of b's
+        int deletion=0;//no. of deleted b's
+        for(int i=0;i<n;i++) //traverse the string
+        {
+            if(s[i]=='b')//if b encountered
+            {
+                occurence_b++;//increase occurence of b
+
+            }
+            else//if a encountered
+            {
+                if(occurence_b>0)//check if b remaining or not
+                {
+                deletion++;//update
+                occurence_b--;//decrese /// you can use stack too
+                }
+            }
+        }
+        return deletion;
+    }
+};
