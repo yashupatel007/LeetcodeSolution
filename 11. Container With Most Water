@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n=height.size();
+        int left=0;//1 pointer at start
+        int right=n-1;//another pointer at end
+        int max_area=0;
+        int temp_area=0;
+        while(left<right)
+        {
+            temp_area=(right-left)*min(height[left],height[right]);//find current area
+            max_area=max(temp_area,max_area);//find max area
+            if(height[left]<height[right])//if less move left++ else right--
+                left++;
+            else
+                right--;
+        }
+        return max_area;
+    }
+};
