@@ -29,3 +29,17 @@ public:
         return head;
     }
 };
+
+// //2nd approach- efficient approach
+
+// ListNode *curr=head;
+// ListNode *fut=NULL;
+// ListNode *prev=NULL;
+// while(curr!=NULL)
+// {
+//     fut=curr->next;
+//     current->next=prev;
+//     curr=fut;
+//     prev=curr;
+// }
+// return prev;
