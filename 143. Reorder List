@@ -1,0 +1,61 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+      ListNode* reverse(ListNode* curr,ListNode* prev)
+    {
+        ListNode* fut=NULL;
+        while(curr)
+        {
+            fut=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=fut;
+        }
+        return prev;
+    }
+    void reorderList(ListNode* head) {
+        if(head->next==NULL ){
+            return;
+        }
+        //find the mid
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast && fast->next)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        fast=slow->next;
+        slow->next=NULL;
+        //call function to reverse the 2d LL
+        ListNode* p1=head;//points 1st list
+        ListNode* p2=reverse(fast,NULL);//points 2nd list
+        ListNode* fake=new ListNode(0,NULL);
+        ListNode* curr=fake;
+        while(p1!=NULL || p2!=NULL)//p2 list become NULL first
+        {
+            if(p1!=NULL)
+            {
+                curr->next=p1;
+                curr=curr->next;
+                p1=p1->next;
+            }
+            if(p2!=NULL)
+            {
+                curr->next=p2;
+                curr=curr->next;
+                p2=p2->next;
+            }
+        }
+     delete fake;
+    }
+};
