@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<string> buildArray(vector<int>& target, int n) {
+        vector<string>ans;
+        int stream=1;
+        int index=0;
+        while(index<target.size() && stream<=n)
+        {
+            if(stream==target[index])
+            {
+                ans.push_back("Push");
+                index++;
+            }
+            else
+            {
+                ans.push_back("Push");
+                ans.push_back("Pop");
+            }
+            stream++;
+            
+        }
+        return ans;
+    }
+};
