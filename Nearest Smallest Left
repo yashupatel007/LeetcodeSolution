@@ -1,0 +1,19 @@
+//now find the NSL index
+        vector<int>NSL(n,0);
+        for(int j=0;j<n;j++)
+        {
+            while(!st.empty() && heights[j]<=heights[st.top()])
+            {
+                st.pop();
+            }
+            if(!st.empty())
+            {
+                NSL[j]=st.top();
+            }
+            st.push(j);
+        }
+        while(!st.empty())
+        {
+            NSL[st.top()]=-1;
+            st.pop();
+        }
