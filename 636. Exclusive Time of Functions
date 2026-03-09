@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+        int m=logs.size();
+        stack<int>st;
+        vector<int>ans(n,0);
+        int prev_time=0;
+        for(int i=0;i<m;i++)
+        {
+            string log=logs[i];
+            int index1=log.find(':');
+            int index2=log.find(':',index1+1);//what to find,from where to find
+            int id=stoi(log.substr(0,index1));//starting index,steps to be moved
+            string state=log.substr(index1+1,index2-index1-1);
+            int timestamp=stoi(log.substr(index2+1));
+
+            //check the state
+            if(state=="start")
+            {
+                if(st.empty())
+                {
+                    st.push(id);
+                    prev_time=timestamp;
+                    continue;
+                }
+                ans[st.top()]+=timestamp-prev_time;
+                st.push(id);
+                prev_time=timestamp;
+            }
+            else//for start=="end"
+            {
+                ans[st.top()]+=timestamp-prev_time+1;
+                st.pop();
+                prev_time=timestamp+1;//upcoming start from +1 bcz this end at timestamp
+            }
+        }
+        return ans;
+    }
+};
