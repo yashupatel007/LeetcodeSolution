@@ -23,3 +23,22 @@ public:
         return time;
     }
 };
+//2nd approach
+
+class Solution {
+public:
+    int timeRequiredToBuy(vector<int>& tickets, int k) {
+        int n=tickets.size();
+        int time=0;
+        for(int i=0;i<k;i++)//for Left Side
+        {
+            time+=min(tickets[k],tickets[i]);
+        }
+        //for right side
+        for(int j=n-1;j>k;j--)
+        {
+            time+=min(tickets[k]-1,tickets[j]);
+        }
+        return time+tickets[k];
+    }
+};
