@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countCommas(int n) {
+        if(n<1000)
+            return 0;
+        
+        //range 1- for 1 commas
+        if(n<=999999)
+            return (n-1000+1);
+        //range 2- for 2 commas
+        else if(n<=999999999)
+        {
+            return 999000+(n-1000000+1)*2;
+        }
+        else//range 3- for 3 commas
+        {
+            return 1998999000+(n-1000000000+1)*3;
+        }
+
+    }
+};
