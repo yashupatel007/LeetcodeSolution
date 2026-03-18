@@ -1,0 +1,15 @@
+class Solution {
+public:
+    long long countCommas(long long n) {
+        long long comma=0;
+        long long minimum=1000;
+        while(n>=minimum)
+        {
+            comma+=(n-minimum+1);
+            if(minimum>LLONG_MAX/1000)//check before increasing the minimum
+                break;//to prevent overflow
+            minimum*=1000;
+        }
+        return comma;
+    }
+};
