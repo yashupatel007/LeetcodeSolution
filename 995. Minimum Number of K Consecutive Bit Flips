@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minKBitFlips(vector<int>& nums, int k) {
+        int n=nums.size();
+        int flip=0;
+        queue<int>q;
+        for(int i=0;i<n;i++)//iterate the array
+        {
+            if(!q.empty() && i>q.front())//window left behind the old element
+                q.pop();//remove as new window is formed 
+            if(q.size()%2==nums[i])// fliping condition
+            {
+                if((i+k-1)>=n)//not able to make all 1
+                    return -1;
+                q.push(i+k-1);//push k window element
+                flip++;
+            }
+        }
+        return flip;
+    }
+};
