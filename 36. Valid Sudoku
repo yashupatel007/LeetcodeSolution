@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_set<int>s;
+        int r=board.size();
+        int c=board[0].size();
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(board[i][j]!='.')
+                {
+                    int digit=board[i][j]-'0';
+                    int box_count=(i/3)*3+(j/3);
+
+                    int rowKey=0+(i*10)+digit;
+                    int colKey=100+(j*10)+digit;
+                    int boxKey=200+(box_count*10)+digit;
+
+                    if(s.count(rowKey) || s.count(colKey) || s.count(boxKey))
+                        return false;
+
+                s.insert(rowKey);
+                s.insert(colKey);
+                s.insert(boxKey);
+                }
+            
+            }
+        }
+        return true;
+    }
+};
