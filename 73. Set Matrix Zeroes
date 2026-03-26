@@ -1,0 +1,93 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        // stack<pair<int,int>>st;
+        // int row=matrix.size();
+        // int col=matrix[0].size();
+        // for(int i=0;i<row;i++)
+        // {
+        //     for(int j=0;j<col;j++)
+        //     {
+        //         if(matrix[i][j]==0)
+        //         {
+        //             st.push({i,j});
+        //         }
+        //     }
+        // }
+        // while(!st.empty())
+        // {
+        //     pair<int,int> p=st.top();
+        //     int r=p.first;
+        //     int c=p.second;
+        //     st.pop();
+        //     for(int j=0;j<col;j++)//for rows
+        //     {
+        //         matrix[r][j]=0;
+        //     }
+        //     for(int k=0;k<row;k++)//for cols
+        //     {
+        //         matrix[k][c]=0;
+        //     }
+
+        // }
+        //2nd optimal approach
+        int row=matrix.size();
+        int col=matrix[0].size();
+        bool firstRowInfected=false;
+        bool firstColInfected=false;
+      //check 1st row & col for 0 (infected)
+      for(int i=0;i<row;i++)//for 1st col
+      {
+        if(matrix[i][0]==0)
+        {
+            firstColInfected=true;
+            break;
+        }
+      }
+
+        for(int j=0;j<col;j++)//1st row
+      {
+        if(matrix[0][j]==0)
+        {
+            firstRowInfected=true;
+            break;
+        }
+      }
+        //check which one is 0 and make its 1st row & col element as 0
+        
+        for(int i=1;i<row;i++)
+        {
+            for(int j=1;j<col;j++)
+            {
+                if(matrix[i][j]==0)
+                {
+                    matrix[i][0]=0; //make 1st row element 0
+                    matrix[0][j]=0;//make 1st col element 0
+                }
+                
+            }
+        }
+        //traverse and make row & col zero except 1st row & col
+        for(int i=1;i<row;i++)
+        {
+            for(int j=1;j<col;j++)
+            {
+                if(matrix[0][j]==0 || matrix[i][0]==0)
+                {
+                    matrix[i][j]=0;
+                }
+            }
+        }
+        //now make 1st row & col as 0 
+        if(firstRowInfected)
+        {
+            for(int j=0;j<col;j++)
+                matrix[0][j]=0;
+        }  
+         if(firstColInfected)
+        {
+            for(int i=0;i<row;i++)
+                matrix[i][0]=0;
+        }  
+    }
+};
