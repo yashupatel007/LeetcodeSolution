@@ -1,0 +1,47 @@
+https://www.geeksforgeeks.org/problems/diagonal-traversal-of-binary-tree/1
+/* A binary tree node
+struct Node
+{
+    int data;
+    Node* left, * right;
+}; */
+
+class Solution {
+  public:
+    void find(Node* root,int pos,int& l)//for finding the length of vector
+    {
+        if(!root)
+            return;
+        l=max(l,pos);
+        find(root->left,pos+1,l);//change pos--left+1
+        find(root->right,pos,l);//for right do no change pos
+    }
+    
+    void findDiagonal(Node* root,int pos,vector<vector<int>>& ans)
+    {
+        if(!root)
+            return;
+        // N L R
+        ans[pos].push_back(root->data);// N
+        findDiagonal(root->left,pos+1,ans);// L
+        findDiagonal(root->right,pos,ans);// R
+    }
+    vector<int> diagonal(Node *root) {
+        // code here
+        int l=0;
+        find(root,0,l);
+        vector<vector<int>>ans(l+1);
+        findDiagonal(root,0,ans);
+        
+        //store in res
+        vector<int> res;
+        for(int i=0;i<ans.size();i++)
+        {
+            for(int j=0;j<ans[i].size();j++)
+            {
+                res.push_back(ans[i][j]);
+            }
+        }
+        return res;
+    }
+};
