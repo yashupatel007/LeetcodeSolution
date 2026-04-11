@@ -1,0 +1,46 @@
+ vector<bool>primeCheck(200001,true);
+class Solution {
+public:
+   
+    void storePrime()
+    {
+        primeCheck[0]=false;
+        primeCheck[1]=false;
+
+        for(int i=2;i*i<=200000;i++)
+            {
+                if(primeCheck[i])
+                {
+                    for(int j=i*i;j<=200000;j+=i)
+                        {
+                            primeCheck[j]=false;
+                        }
+                }
+            }
+    }
+    int minOperations(vector<int>& nums) {
+        storePrime();
+        long long count=0;
+        for(int i=0;i<nums.size();i++)
+            {
+                int temp=nums[i];
+                if(i%2==0)
+                {
+                    while(!primeCheck[temp])
+                        {
+                            count++;
+                            temp++;
+                        }
+                }
+                else
+                {
+                    while(primeCheck[temp])
+                        {
+                            count++;
+                            temp++;
+                        }
+                }
+            }
+        return (int)count;
+    }
+};
