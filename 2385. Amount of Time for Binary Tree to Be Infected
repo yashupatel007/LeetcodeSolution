@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int Burn(TreeNode* root,int& timer,int target)
+    {
+        if(!root)
+            return 0;
+        
+        int left=Burn(root->left,timer,target);//calculate left
+        int right=Burn(root->right,timer,target);//calculate right
+
+        if(root->val==target)//if found the burn causing node
+        {
+            timer=max(timer,max(left,right));//calculate its height-1
+            return -1;//infect others
+        }
+
+        if(left<0)//if left is burn
+        {
+            timer=max(timer,abs(left)+right);
+            return left-1;
+        }
+        if(right<0)//if right is burn
+        {
+            timer=max(timer,left+abs(right));
+            return right-1;
+        }
+        return 1+max(left,right);//otherwise return height
+    }
+
+
+    int amountOfTime(TreeNode* root, int start) {
+        int timer=0;
+        Burn(root,timer,start);
+        return timer;
+    }
+};
