@@ -1,0 +1,54 @@
+class Solution {
+public:
+    vector<vector<int>> colorGrid(int n, int m, vector<vector<int>>& sources) {
+        vector<vector<int>>grid(n,vector<int>(m,0));
+        vector<vector<int>>dist(n,vector<int>(m,-1));
+
+        sort(sources.begin(),sources.end(),[](const vector<int>& a,const vector<int>& b){
+            return a[2]>b[2];
+    });
+        queue<pair<int,int>>q;
+
+        for(auto& s:sources)
+            {
+                int r=s[0],c=s[1],color=s[2];
+                if(grid[r][c]==0)
+                {
+                    grid[r][c]=color;
+                    dist[r][c]=0;
+                    q.push({r,c});
+                }
+            }
+        int dr[]={0,0,1,-1};
+        int dc[]={1,-1,0,0};
+        while(!q.empty())
+            {
+                pair<int,int>curr=q.front();
+                q.pop();
+                int r=curr.first;
+                int c=curr.second;
+
+                for(int i=0;i<4;i++)
+                    {
+                        int nr=r+dr[i];
+                        int nc=c+dc[i];
+
+                        if(nr>=0 && nr<n && nc>=0 && nc<m)
+                        {
+                            if(dist[nr][nc]==-1)
+                            {
+                                dist[nr][nc]=dist[r][c]+1;
+                                grid[nr][nc]=grid[r][c];
+                                q.push({nr,nc});
+                            }
+                            else if(dist[nr][nc]==dist[r][c]+1)
+                            {
+                                grid[nr][nc]=max(grid[nr][nc],grid[r][c]);
+                            }
+                        }
+                    }
+            }
+        return grid;
+        
+    }
+};
