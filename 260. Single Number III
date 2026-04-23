@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        // XOR all we get= 3 ^ 5
+        // mask= XOR & -XOR
+        //divide group - mask & nums and store ans
+        long long XOR=0;
+        for(int &x:nums)
+        {
+            XOR=XOR ^ x;
+        }
+        int mask=(XOR) & (-XOR);
+
+        int gpA=0;
+        int gpB=0;
+
+        for(int &x:nums)
+        {
+            if((mask & x )==0)
+                gpA= gpA ^ x;
+            else
+                gpB= gpB ^ x;
+        }
+        return {gpA,gpB};
+    }
+};
