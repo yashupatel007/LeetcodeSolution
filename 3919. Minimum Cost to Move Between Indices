@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int > minCost(vector<int>& nums, vector<vector<int>>& queries) {
+        int n=nums.size();
+        
+        vector<long long>rPref(n,0);
+        for(int i=0;i<n-1;i++)
+            {
+                long long cost=nums[i+1]-nums[i];
+                if(i==0)
+                    cost=1;
+                else if((nums[i]-nums[i-1])>(nums[i+1]-nums[i]))
+                   cost=1;
+                rPref[i+1]=rPref[i]+cost;
+            }
+            vector<long long>lPref(n,0);
+        for(int i=1;i<n;i++)
+            {
+                long long cost=nums[i]-nums[i-1];
+                if(i==n-1)
+                    cost=1;
+                else if((nums[i]-nums[i-1])<=(nums[i+1]-nums[i]))
+                   cost=1;
+                lPref[i]=lPref[i-1]+cost;
+            }
+
+        vector<int>ans;
+        for(auto q:queries)
+            {
+                int left=q[0];
+                int right=q[1];
+
+                if(left<right)
+                    ans.push_back(rPref[right]-rPref[left]);
+                else if(left>right)
+                    ans.push_back(lPref[left]-lPref[right]);
+                else
+                    ans.push_back(0);
+            }
+        return ans;
+    }
+};
