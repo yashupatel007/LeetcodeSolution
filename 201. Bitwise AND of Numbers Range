@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int rangeBitwiseAnd(int left, int right) {
+    // // intuitive  strategy- we delete rigth most bit of left & right untill the same bit we get(right shift)
+    // //then we do left shift (the no. of deleted count)
+    // int delete_count=0;
+    // while(left!=right)
+    // {
+    //     delete_count++;
+    //     left=left>>1;
+    //     right=right>>1;
+
+    // }
+    // int ans=left<<delete_count;
+    // return ans;
+
+    //Kernighan's method- n & (n-1) - chop the right most bit
+    while (right > left)
+    {
+        right= right & (right-1);
+    }
+    return right;
+    }
+};
