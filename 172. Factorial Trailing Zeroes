@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        // strategy - for trailing 0 we need 10 - 2*5
+        // since 2 is more and 5 is less , we count only 5
+        int count_five=0;
+        while(n>0)
+        {
+            n/=5;
+            count_five+=n;
+        }
+        return count_five;
+    }
+};
