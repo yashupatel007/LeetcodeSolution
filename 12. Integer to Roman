@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        // my strategy - 1. divide the n by 1000 then 100 then 10
+        // 2. store and if the digit does not start with 4 or 9 then add divided no. like 1000 we have temp=3000
+        // check its range 1000<=temp, we divide temp/1000 and loop that times i.e. 3 and add in string s + "M" and substract evry time to make temp 0
+
+        //more efficient one is - 
+        int roman_val[13]={1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        string roman_sym[13]={"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        string ans="";
+        
+        for(int i=0;i<13;i++)
+        {
+            while(num>=roman_val[i])//keep checking 
+            {
+                ans+=roman_sym[i];
+                num-=roman_val[i];// substract the original value 
+            }
+        }
+        return ans;
+    }
+};
