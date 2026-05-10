@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maximumJumps(vector<int>& nums, int target) {
+        int n=nums.size();
+        vector<int>jump_count(n,-1);// track the jump
+        jump_count[0]=0;// at first we just standing
+
+        for(int i=1;i<n;i++)//traverse the nums
+        {
+            int maxi=INT_MIN;
+            for(int j=0;j<i;j++)// check count from index 0 to i-1
+            {
+            int diff= abs(nums[i]-nums[j]);// find the difference 
+            if(diff<=target && jump_count[j]!=-1)
+            {
+                maxi=max(jump_count[j]+1,maxi);// store max count
+            }
+            }
+            if(maxi!=INT_MIN)// if valid count store in arr
+                jump_count[i]=maxi;
+        }
+        return jump_count[n-1];
+    }
+};
