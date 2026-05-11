@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> countWordOccurrences(vector<string>& chunks, vector<string>& queries) {
+        vector<int>ans;
+        unordered_map<string,int>mp;// store freq
+        string combine="";
+    // combine vector string into single string
+        for(auto& s:chunks)
+            combine+=s;
+
+    // traverse the combined string
+        int n=combine.size();
+        string temp="";
+        for(int i=0;i<n;i++)
+        {
+            char c=combine[i];
+            bool valid_hyphen=false;
+            //check for valid hyphen (its not in start & end)
+            if(c=='-' && i!=0 && i!=n-1)
+            {
+                if(islower(combine[i-1]) && islower(combine[i+1])) // have both left and right lower case
+                    valid_hyphen=true;
+            }
+            //if we get valid hyphen or letter put in temp(build word)
+            if(islower(c) || valid_hyphen)
+                temp+=c;
+            else// cutter word(-- or " " or anything) pushed the stored temp into mp
+            {
+                if(temp.size()>0)
+                {
+                mp[temp]++;// incr. freq
+                temp=""; // reset
+                }
+            }
+
+        }
+        // if its a cutter at end we left word stored in temp
+        if(temp.size()>0)
+            mp[temp]++;// incr freq for it
+
+        for(auto &s: queries)
+            ans.push_back(mp[s]);// push the freq into the vector 
+
+        return ans;
+    }
+};
