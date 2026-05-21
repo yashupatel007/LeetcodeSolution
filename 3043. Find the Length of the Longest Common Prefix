@@ -1,0 +1,38 @@
+
+class Solution {
+public:
+    int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+// can be also done by the tries concept
+        unordered_set<int>st;
+        for(int i=0;i<arr1.size();i++)
+        {
+            int n=arr1[i];
+            while(n)
+            {
+                st.insert(n);
+                n/=10;
+            }
+        }
+        int count=0;
+        for(int j=0;j<arr2.size();j++)
+        {
+            int n=arr2[j];
+            while(n)
+            {
+            if(st.count(n))
+            {
+                string temp=to_string(n);
+                // if(temp.size()>count)
+                // {
+                //     count=temp.size();
+                // }
+                int len=temp.size();
+                count=max(count,len);
+            }
+            n/=10;
+            }
+        }
+        return count;
+    }
+
+};
