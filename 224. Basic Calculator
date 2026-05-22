@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int calculate(string s) {
+        int n=s.size();
+        stack<int>st;
+        long long num=0;
+        int res=0;
+        int sign=1;
+
+        for(int i=0;i<n;i++)
+        {
+            if(isdigit(s[i]))
+            {
+                num=(num*10)+(s[i]-'0');//build number
+            }
+            else if(s[i]=='+')
+            {
+                res+=(num*sign);//store the number in result with sign for future calculation
+                num=0;//reset num
+                sign=1;//change the sign
+            }
+            else if(s[i]=='-')
+            {
+                res+=(num*sign);//store the number in result with sign for future calculation
+                num=0;//reset num
+                sign=-1;//change the sign
+            }
+            else if(s[i]=='(')// push previous res to stack and sign too
+            {
+                st.push(res);
+                st.push(sign);
+                res=0;
+                num=0;
+                sign=1;
+            }
+            else if(s[i]==')')// add the (content)+ stack content
+            {
+                res+=(num*sign);//store (content) to res
+                num=0;
+                res*=st.top();// multiple with stack sign 
+                st.pop();
+                res+=st.top();// add with stack number
+                st.pop();
+            }
+        }
+            res+=(num*sign);// left num for - 2-1+2
+            return (int)res;
+    }
+};
