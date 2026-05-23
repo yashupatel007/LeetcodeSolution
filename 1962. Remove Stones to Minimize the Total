@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minStoneSum(vector<int>& piles, int k) {
+        priority_queue<int>p;// max heap
+
+        for(int x:piles)// store elements in PQ
+            p.push(x);
+        
+        while(k--)
+        {
+            int temp=p.top();// get max
+            p.pop();
+            p.push(ceil(temp/2.0));// push the floor
+        }
+
+        int ans=0;
+        while(!p.empty())// add all
+        {
+            ans+=p.top();
+            p.pop();
+        }
+        return ans;
+    }
+};
