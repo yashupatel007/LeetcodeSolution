@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int,vector<int>,greater<int>>p;// min heap
+
+        for(int i=0;i<k;i++)//push k elements
+            p.push(nums[i]);
+        
+        for(int i=k;i<nums.size();i++)
+        {
+            if(nums[i]>p.top())// if upcomig element is greater than the smallest
+            {
+                p.pop();// remove smallest
+                p.push(nums[i]);// push the greater element
+                // we have 1st grater element ...... kth greater element
+            }
+        }
+        return p.top();
+        
+    }
+};
