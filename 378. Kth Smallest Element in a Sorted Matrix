@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int row=matrix.size();
+        int col=matrix[0].size();
+        // define type
+        typedef pair<int,pair<int,int>> element;
+
+        vector<element>temp;// to store the 1st col of matrix
+        for(int i=0;i<row;i++)
+        {
+            temp.push_back({matrix[i][0],{i,0}});
+        }
+        // build min heap O(n)
+        priority_queue<element,vector<element>,greater<element>>p(temp.begin(),temp.end());
+
+        auto smallest=p.top(); // always initialise
+        while(k--)
+        {
+            smallest=p.top();
+            p.pop();
+            int s_row=smallest.second.first;
+            int s_col=smallest.second.second;
+            // push the next element in min heap
+
+            if(s_col+1<col)
+            {
+            p.push({matrix[s_row][s_col+1],{s_row,s_col+1}});
+            }
+        }
+        return smallest.first;
+    }
+};
