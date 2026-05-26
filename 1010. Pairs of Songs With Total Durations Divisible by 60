@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        int n=time.size();
+        vector<int>modArr(60,0);
+        int count=0;
+
+        for(int i=0;i<n;i++)
+        {
+            int temp=(60-(time[i]%60))%60; // 20 , 40
+            // how many 60-(time[i]%60) seen in modArr so far
+            count+=modArr[temp];
+            // increase the freq of time[i]%60
+            modArr[time[i]%60]++;
+
+        }
+        return count;
+    }
+};
