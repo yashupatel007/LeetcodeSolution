@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        int row=nums.size();
+        typedef pair<int,pair<int,int>>element;
+
+        vector<element>temp1;
+        int mini;
+        int maxi=INT_MIN;
+        for(int i=0;i<row;i++)
+        {
+            temp1.push_back({nums[i][0],{i,0}});
+            maxi=max(maxi,nums[i][0]);
+        }
+        
+        priority_queue<element,vector<element>,greater<element>>p(temp1.begin(),temp1.end());
+        mini=p.top().first;
+        vector<int>ans(2);
+        ans[0]=mini;
+        ans[1]=maxi;
+
+        element temp=p.top();
+        while(p.size()==nums.size())
+        {
+            temp=p.top();
+            p.pop();
+            int r=temp.second.first;
+            int c=temp.second.second;
+
+            if(c+1<nums[r].size())
+            {
+                p.push({nums[r][c+1],{r,c+1}});
+                mini=p.top().first;
+                maxi=max(maxi,nums[r][c+1]);
+
+                if(maxi-mini < ans[1]-ans[0])
+                {
+                    ans[0]=mini;
+                    ans[1]=maxi;
+                }
+            }
+        }
+        return ans;
+    }
+};
