@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool isPossible(vector<int>& target) {
+        long long sum=0;
+        priority_queue<int>p;
+        for(int x:target)
+        {
+            p.push(x);
+            sum+=x;
+        }
+        int maxele;
+        long long remSum;
+        int element;
+
+        while(p.top()!=1)
+        {
+            maxele=p.top();
+            p.pop();
+            remSum=sum-maxele;
+
+            if(remSum<=0 || remSum>=maxele)
+                return 0;
+            
+            element=maxele % remSum;
+            
+            if(element==0)
+            {
+                if(remSum!=1)
+                    return 0;
+                else
+                    return 1;
+            }
+            sum=remSum+element;
+
+            p.push(element);
+            
+        }
+        return 1;
+    }
+};
