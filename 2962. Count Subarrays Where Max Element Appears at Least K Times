@@ -1,0 +1,33 @@
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int k) {
+        int left=0;
+        int right=0;
+        long long count=0;
+        int max_count=0;
+        int n=nums.size();
+        int maxi=INT_MIN;
+
+        // find the max in nums
+        for(int x:nums)
+            maxi=max(maxi,x);
+
+        // expand the window
+        while(right<n)
+        {
+            if(nums[right]==maxi)
+                max_count++;
+            
+            // shrink when max count = k
+            while(left<=right && max_count==k)
+            {
+                count+=(n-right);
+                if(nums[left]==maxi)// if removed element is max then reduce the count
+                    max_count--;
+                left++;
+            }
+            right++;
+        }
+        return count;
+    }
+};
