@@ -1,0 +1,51 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int n=s.size();
+        unordered_map<char,int>mp;
+        int left=0;
+        int right=0;
+        
+        // push the freq of t char in map
+        for(int i=0;i<t.size();i++)
+            mp[t[i]]++;
+
+        int totalCount=t.size(); // store the total count of t char
+        int len=INT_MAX;// store length of window
+        int index=-1;// store the starting char index so that we print substr later
+
+        while(right<n)
+        {
+            mp[s[right]]--;// move forward decrease the count
+            if(mp[s[right]]>=0)// if the decreased count is +ve , total-1
+                totalCount--;
+            
+            //shrinking window
+            while(!totalCount && left<=right)
+            {
+                if(len>(right-left+1))
+                {
+                   len=right-left+1;
+                   index=left;
+                }
+
+                mp[s[left]]++;
+                if(mp[s[left]]>0)// +ve
+                    totalCount++;
+                
+                left++;
+            }
+            right++;// expand window
+        }
+        if(index==-1)
+            return "";
+
+        string ans="";
+        while(len--)
+        {
+            ans+=s[index];
+            index++;
+        }
+        return ans;
+    }
+};
