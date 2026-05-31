@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& nums, int K) {
+        // find the subarray count which has atleast (k) - atleast (k+1)
+        // aleast(2)-atleast(3)= exactly (2)
+
+        int n=nums.size();
+        int time=2;
+        int k=K;
+        int ans=0;
+        while(time--)
+        {
+        int left=0;
+        int right=0;
+        int countK=0;
+        int count_different=0;
+        unordered_map<int,int>mp;
+
+        while(right<n)
+        {
+            mp[nums[right]]++;
+            if(mp[nums[right]]==1)  count_different++;
+
+            while(left<=right && count_different>=k)
+            {
+                countK+=(n-right);
+                mp[nums[left]]--;
+                if(mp[nums[left]]==0)   count_different--;
+                left++;
+            }
+            right++;
+        }
+        k++;
+        ans=abs(ans-countK);
+        }
+        return ans;
+    }
+};
