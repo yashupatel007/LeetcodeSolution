@@ -1,0 +1,60 @@
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int>ans;
+        int n=s.size();
+        int wordSize=words[0].size();
+        int totalWordSize=words.size();
+        unordered_map<string,int>refMap;
+        
+        for(string &x:words)// store the freq. of words vector
+            refMap[x]++;
+
+        for(int i=0;i<wordSize;i++)// for 0-5 -> then 1-6-> then 2-7
+        {
+            int left=i;
+            int right=i;
+            int UsefulWordcout=0;
+            unordered_map<string,int>currMap;
+
+            while(right+wordSize<=n)// move let say +3 -> +3
+            {
+                string currWord=s.substr(right,wordSize);
+                right+=wordSize;// move in a bunch of +3->+3
+
+                // check if it is a useful word
+                if(refMap.count(currWord))
+                {
+                    currMap[currWord]++;
+                    if(currMap[currWord]<=refMap[currWord])
+                        UsefulWordcout++;
+                
+
+                //shrink the window
+                while(currMap[currWord] > refMap[currWord])
+                {
+                    string leftWord=s.substr(left,wordSize);
+                    left+=wordSize;
+                    currMap[leftWord]--;
+                    // check if it is a useful word
+                    if(currMap[leftWord] < refMap[leftWord])
+                        UsefulWordcout--;
+                }
+
+                //valid substring
+                if(UsefulWordcout == totalWordSize)
+                    ans.push_back(left);
+            }
+                
+                //reset if not a valid word
+                 else
+                 {
+                    currMap.clear();
+                    UsefulWordcout=0;
+                    left=right;
+                 }
+            }
+        }
+        return ans;
+    }
+};
