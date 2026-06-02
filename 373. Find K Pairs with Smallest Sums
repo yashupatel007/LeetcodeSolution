@@ -1,0 +1,41 @@
+class Solution {
+public:
+    typedef pair<int,pair<int,int>>element;
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        int n=nums1.size();
+        int m=nums2.size();
+        
+        priority_queue<element,vector<element>,greater<element>>p;
+        set<pair<int,int>>s;
+         vector<vector<int>>ans;
+
+        p.push({nums1[0]+nums2[0],{0,0}});
+        s.insert({0,0});
+
+        while(!p.empty() && k--)
+        {
+            element temp=p.top();
+            p.pop();
+
+            int r=temp.second.first;
+            int c=temp.second.second;
+           
+            ans.push_back({nums1[r],nums2[c]});
+
+            if(r+1<n && !s.count({r+1,c}))
+            {
+                p.push({nums1[r+1]+nums2[c],{r+1,c}});
+                s.insert({r+1,c});
+            }
+
+            if(c+1<m && !s.count({r,c+1}))
+            {
+                p.push({nums1[r]+nums2[c+1],{r,c+1}});
+                s.insert({r,c+1});
+            }
+
+        }
+        return ans;
+        
+    }
+};
