@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        //here we have relationship & direction b->a & cycle(false)
+        // so we use BFS topological sort
+        int V=numCourses;
+        vector<vector<int>>adj(V);
+        vector<int>indeg(V,0);
+        queue<int>q;
+        vector<int>ans;
+        //make adj 
+        for(int i=0;i<prerequisites.size();i++)
+        {
+            int u=prerequisites[i][0];
+            int v=prerequisites[i][1];
+            // given b->a so v->u
+            adj[v].push_back(u);
+            indeg[u]++;// store indeg of all nodes & we take u bec. v->u
+        }
+        
+        //push the 0 indeg node in q
+        for(int i=0;i<V;i++)
+        {
+            if(!indeg[i])
+                q.push(i);
+        }
+
+        while(!q.empty())
+        {
+            // take 1 node and decrease its neighbour indegree 
+            // & if indeg is 0 push in q
+            int node=q.front();
+            q.pop();
+            ans.push_back(node);
+            for(int j=0;j<adj[node].size();j++)
+            {
+                indeg[adj[node][j]]--;
+                if(!indeg[adj[node][j]])
+                    q.push(adj[node][j]);
+            }
+        }
+        if(ans.size()==V)
+            return ans;
+        else
+           return {};
+    }
+};
