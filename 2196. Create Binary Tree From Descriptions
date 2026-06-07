@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        unordered_map<int,TreeNode*>mp;// use to store the addr.of half made tree
+        unordered_set<int>s;// store all child then used to find the root
+
+        TreeNode* root=NULL;
+        for(auto &des:descriptions)
+        {
+            if(!mp.count(des[0]))// if parent appears first time
+            {
+                TreeNode* parent= new TreeNode(des[0]);// create and insert in mp
+                mp[des[0]]=parent;
+               
+            }
+            if(!mp.count(des[1]))// if child appears first time 
+            {
+                TreeNode* child=new TreeNode(des[1]);// create and insert
+                mp[des[1]]=child;
+            }
+            
+            TreeNode* parent=mp[des[0]];// get the parent addr.
+            TreeNode* child=mp[des[1]];// get the child addr.
+            des[2] ? parent->left=child : parent->right=child;// insert left or right
+            s.insert(child->val);// push the child explicitly in set
+            
+        }  
+        // find the root- the node which didn't appear in set
+        for(auto & des:descriptions)
+        {
+            if(!s.count(des[0]))
+                return mp[des[0]];// root 
+        }
+        return root;  
+    }
+};
