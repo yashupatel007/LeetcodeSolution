@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int row=isConnected.size();// traverse the adj list
+        vector<bool>visited(row,0);// used to track which city is visited
+        int count=0;
+       
+        for(int i=0;i<row;i++)
+        {
+            if(!visited[i])// not visited
+            {
+                queue<int>q;
+                count++;
+                visited[i]=1;
+                q.push(i);
+
+                while(!q.empty())
+                {
+                    int node=q.front();
+                    q.pop();
+
+                    for(int j=0;j<isConnected[i].size();j++)
+                    {
+                        if(isConnected[node][j]==1 && !visited[j])
+                        {
+                            visited[j]=1;
+                            q.push(j);
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+};
