@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int row;
+    int col;
+    int r[8]={-1,-1,-1,0,0,1,1,1};
+    int c[8]={-1,0,1,-1,1,-1,0,1};
+
+    bool valid(int i,int j)
+    {
+        return i>=0 && i<row && j>=0 && j<col;
+    }
+
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        row=grid.size();
+        col=grid[0].size();
+
+        if(grid[0][0] || grid[row-1][col-1])//base case
+            return -1;
+
+        // apply BFS and when dest. [n-1][n-1] reaches it is the shortest distance
+        queue<pair<int,pair<int,int>>>q;
+        q.push({1,{0,0}});
+        grid[0][0]=1;
+
+            while(!q.empty())
+            {
+                int i=q.front().second.first;
+                int j=q.front().second.second;
+                int dist=q.front().first;
+                q.pop();
+
+                // if reached the destination
+                if(i==row-1 && j==col-1)
+                    return dist;
+
+                for(int k=0;k<8;k++)
+                {
+                if(valid(i+r[k],j+c[k]) && grid[i+r[k]][j+c[k]]==0)
+                {
+                    grid[i+r[k]][j+c[k]]=1;
+                    q.push({dist+1,{i+r[k],j+c[k]}});
+                }
+            }
+        }
+        return -1;
+    }
+};
