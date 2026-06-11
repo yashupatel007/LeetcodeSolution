@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // make adj matrix
+        vector<vector<pair<int,int>>>adj(n);
+        for(int i=0;i<edges.size();i++)
+        {
+            int u=edges[i][0];
+            int v=edges[i][1];
+            int w=edges[i][2];
+
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+        }
+        // use Dijkstra to find shortest distance of every node
+        pair<int,int> min_city={INT_MAX,-1};
+        for(int i=0;i<n;i++)
+        {
+            // use Dijkstra algo
+            priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>p;
+            p.push({0,i});
+            vector<bool>explore(n,0);
+            vector<int>dist(n,INT_MAX);
+            dist[i]=0;
+
+            while(!p.empty())
+            {
+                int node=p.top().second;
+                p.pop();
+
+                if(!explore[node])
+                {
+                    explore[node]=1;
+                    for(int j=0;j<adj[node].size();j++)
+                    {
+                        int neigh=adj[node][j].first;
+                        int weight=adj[node][j].second;
+                        if(!explore[neigh] && dist[node]+weight<dist[neigh])
+                        {
+                            dist[neigh]=min(dist[neigh],dist[node]+weight);
+                            p.push({dist[neigh],neigh});
+                        }
+                    }
+                }
+            }
+            int count=0;
+            for(int k=0;k<n;k++)
+            {// if(k!=i) also be used 
+                if(dist[k]<=distanceThreshold)
+                    count++;
+            }
+           if(min_city.first>=count)
+           {
+            min_city={count,i};
+           }
+        }
+        return min_city.second;
+    }
+};
