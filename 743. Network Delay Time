@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        // make adj matrix
+        vector<vector<pair<int,int>>>adj(n);
+        for(int i=0;i<times.size();i++)
+        {
+            int u=times[i][0]-1;
+            int v=times[i][1]-1;
+            int w=times[i][2];
+
+            adj[u].push_back({v,w}); // directed graph
+        }
+
+         // use Dijkstra algo
+            priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>p;
+            p.push({0,k-1});
+            vector<bool>explore(n,0);
+            vector<int>dist(n,INT_MAX);
+            dist[k-1]=0;
+
+            while(!p.empty())
+            {
+                int node=p.top().second;
+                p.pop();
+
+                if(!explore[node])
+                {
+                    explore[node]=1;
+                    for(int j=0;j<adj[node].size();j++)
+                    {
+                        int neigh=adj[node][j].first;
+                        int weight=adj[node][j].second;
+                        if(!explore[neigh] && dist[node]+weight<dist[neigh])
+                        {
+                            dist[neigh]=min(dist[neigh],dist[node]+weight);
+                            p.push({dist[neigh],neigh});
+                        }
+                    }
+                }
+            }
+        int min_time=INT_MIN;
+        // find the max value in dist
+        for(int d:dist)
+        {
+            min_time=max(min_time,d); // max dist show min time 
+                                      // a signal reach to all node
+        }
+        // if some node is unreachable means INT_MAX - return -1
+        return min_time!=INT_MAX ? min_time : -1;
+    }
+};
