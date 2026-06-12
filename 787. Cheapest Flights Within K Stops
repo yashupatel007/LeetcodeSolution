@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        int e=flights.size();
+        vector<int>dist(n,INT_MAX);
+        dist[src]=0;
+
+        for(int i=0;i<k+1;i++)
+        {
+            vector<int>temp(dist.begin(),dist.end());
+
+            for(int j=0;j<e;j++)
+            {
+                int u=flights[j][0];
+                int v=flights[j][1];
+                int w=flights[j][2];
+
+                if(dist[u]!=INT_MAX)
+                {
+                    temp[v]=min(temp[v],dist[u]+w);
+                }
+            }
+            dist=temp;
+        }
+        return dist[dst]!=INT_MAX ? dist[dst] : -1;
+    }
+};
