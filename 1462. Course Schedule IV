@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+        int V=numCourses;
+        vector<vector<int>>visited(V,vector<int>(V,0));
+        for(vector<int>& p : prerequisites)
+        {
+            visited[p[0]][p[1]]=1;
+        }
+        // use floyd warshal algo and check which node i can reach
+
+        for(int k=0;k<V;k++)
+        {
+            for(int i=0;i<V;i++)
+            {
+                for(int j=0;j<V;j++)
+                {
+                   if( visited[i][k] && visited[k][j] )
+                    {
+                        visited[i][j]=1;
+                    }
+                }
+            }
+        }
+
+        vector<bool>truth(queries.size(),false);
+        int index=0;
+        for(vector<int>& q:queries)
+        {
+            if(visited[q[0]][q[1]])
+                truth[index]=true;
+
+            index++;
+        }
+        return truth;
+    }
+};
