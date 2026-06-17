@@ -1,0 +1,92 @@
+class Solution {
+public:
+    int n;
+    int col;
+    int r[4]={-1,1,0,0};
+    int c[4]={0,0,-1,1};
+    bool valid(int i,int j)
+    {
+        return i>=0 && i<n && j>=0 && j<col;
+    }
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        n=heights.size();
+        col=heights[0].size();
+        // build pacific visited
+        vector<vector<bool>>pac_visited(n,vector<bool>(col,0));
+        queue<pair<int,int>>q;
+        // push all pacific top left element
+        for(int i=0;i<n;i++) // for left col
+        {
+            q.push({i,0});
+            pac_visited[i][0]=1;
+        }
+        
+        for(int j=0;j<col;j++)// for top row
+        {
+            q.push({0,j});
+            pac_visited[0][j]=1;
+        }
+
+        while(!q.empty())
+        {
+            int i=q.front().first;
+            int j=q.front().second;
+            q.pop();
+
+            for(int k=0;k<4;k++)
+            {
+                if(valid(i+r[k],j+c[k]) && !pac_visited[i+r[k]][j+c[k]]&& heights[i+r[k]][j+c[k]]>=heights[i][j])
+                {
+                    pac_visited[i+r[k]][j+c[k]]=1;
+                    q.push({i+r[k],j+c[k]});
+                }
+            }
+           
+        }
+
+        // build atlantic visited vector
+        vector<vector<bool>>atl_visited(n,vector<bool>(col,0));
+        queue<pair<int,int>>q1;
+        // push all atlantic bottom right element
+        for(int i=0;i<n;i++)// for right col
+        {
+            q1.push({i,col-1});
+            atl_visited[i][col-1]=1;
+        }
+
+        for(int j=0;j<col;j++) // for last row
+        {
+            q1.push({n-1,j});
+            atl_visited[n-1][j]=1;
+        }
+
+        while(!q1.empty())
+        {
+            int i=q1.front().first;
+            int j=q1.front().second;
+            q1.pop();
+
+            for(int k=0;k<4;k++)
+            {
+                if(valid(i+r[k],j+c[k]) && !atl_visited[i+r[k]][j+c[k]] && heights[i+r[k]][j+c[k]]>=heights[i][j])
+                {
+                    atl_visited[i+r[k]][j+c[k]]=1;
+                    q1.push({i+r[k],j+c[k]});
+                }
+            }
+           
+        }
+        // check both pacific & atlantic
+        vector<vector<int>>ans;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                if(pac_visited[i][j] && atl_visited[i][j] )
+                    ans.push_back({i,j});
+            }
+        }
+        return ans;
+
+    }
+};
