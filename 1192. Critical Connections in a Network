@@ -1,0 +1,52 @@
+class Solution {
+public:
+    void DFS(int node,int parent,vector<vector<int>>& connections,vector<vector<int>>& adj,vector<vector<int>>& bridge,vector<bool>& visited,vector<int>& disc,vector<int>& low,int count)
+    {
+        disc[node]=low[node]=count;
+        visited[node]=1;
+
+        for(int j=0;j<adj[node].size();j++)
+        {
+            int neigh=adj[node][j];
+            if(neigh==parent)
+                continue;
+            
+            else if(visited[neigh])
+            {
+                low[node]=min(low[node],low[neigh]);
+            }
+            else // neigh not visited
+            {
+                count++;
+                DFS(neigh,node,connections,adj,bridge,visited,disc,low,count);
+                // bridge exist
+                if(disc[node]<low[neigh])
+                {
+                    bridge.push_back({node,neigh});
+                }
+                low[node]=min(low[node],low[neigh]); 
+
+            }
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<vector<int>>adj(n);
+        for(int i=0;i<connections.size();i++)
+        {
+            int u=connections[i][0];
+            int v=connections[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<bool>visited(n,0);
+        vector<int>disc(n);// discovery time
+        vector<int>low(n);// low 
+        int count=0;
+        vector<vector<int>>bridge;
+        // apply dfs operations and find bridge
+        DFS(0,-1,connections,adj,bridge,visited,disc,low,count);
+
+        return bridge;
+
+    }
+};
