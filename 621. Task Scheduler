@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int m=tasks.size();
+        unordered_map<char,int>mp;
+        for(int i=0;i<m;i++)
+        {
+            mp[tasks[i]]++;
+        }
+
+        // count the total highest freq
+        int highestFreq=INT_MIN;
+        for(auto& freq:mp)
+        {
+            highestFreq=max(highestFreq,freq.second);
+        }
+        
+        int count=0;
+        int sumFreq=0;
+        for(auto freq:mp)
+        {
+            sumFreq+=freq.second;
+            if(freq.second==highestFreq)
+                count++;
+        }
+        // formula 
+        int cycle=(highestFreq-1) * (n+1) + count;
+        return max(cycle,sumFreq);
+    }
+};
