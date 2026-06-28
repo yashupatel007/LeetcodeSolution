@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        vector<vector<int>>ans;
+        int n=intervals.size();
+        // push non overlaping intervals
+        int i=0;
+        while(i<n && newInterval[0] > intervals[i][1])  //newInterval[start]>interval[end]
+        {
+            ans.push_back(intervals[i]);
+            i++;
+        }
+
+        // none is overlapping and i moved end
+        if(i==n)
+        {
+            ans.push_back(newInterval);
+            return ans;
+        }
+
+        //push overlaping intervals
+        while(i<n && newInterval[1]>=intervals[i][0])  //newInterval[end]>=interval[start]
+        {
+            newInterval[0]=min(newInterval[0],intervals[i][0]);
+            newInterval[1]=max(newInterval[1],intervals[i][1]);
+            i++;
+        }
+        ans.push_back(newInterval); // push new interval
+
+        //push rest(as the new interval changes)
+        while(i<n)
+        {
+            ans.push_back(intervals[i]);
+            i++;
+        }
+        return ans;
+    }
+};
