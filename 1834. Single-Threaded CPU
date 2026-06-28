@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> getOrder(vector<vector<int>>& tasks) {
+        int n=tasks.size();
+        vector<int>ans;
+        // add the indexing in the tasks
+        for(int i=0;i<n;i++)
+            tasks[i].push_back(i);
+
+        // sort tasks on the basis of enqueue time
+        sort(tasks.begin(),tasks.end());
+
+        long long timer=tasks[0][0];
+        int index=0;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>p;// processingTime,Index
+
+
+        while(!p.empty() || index<n)
+        {
+        //push all the elements upto tasks[enqueue time]<=timer in pq
+        while(index<n && tasks[index][0]<=timer)
+        {
+            p.push({tasks[index][1],tasks[index][2]});
+            index++;
+        }
+        // pq empty 
+        if(p.empty())
+        {
+            timer=tasks[index][0];
+        }
+        // not empty
+        else
+        {
+            //pop
+            ans.push_back(p.top().second);
+            timer+=p.top().first;
+            p.pop();
+        }
+        }
+        return ans;
+
+    }
+};
