@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        
+         int n=nums.size();
+
+        if(n==1)    return nums[0];
+        if(n==2)    return max(nums[0],nums[1]);
+
+        // excluding last
+        int first=max(nums[0],nums[1]);
+        int second=nums[0];
+        int maxi=first; // for size 3
+        for(int i=2;i<n-1;i++)
+        {
+            maxi=max(nums[i]+second,first);
+            second=first;
+            first=maxi;
+        }
+
+        //excluding first
+        int first2=max(nums[1],nums[2]);
+        int second2=nums[1];
+        int maxi2=first2;
+        for(int i=3;i<n;i++)
+        {
+            maxi2=max(nums[i]+second2,first2);
+            second2=first2;
+            first2=maxi2;
+        }
+
+        return max(maxi,maxi2);
+        
+    }
+};
